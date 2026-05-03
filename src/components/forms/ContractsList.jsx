@@ -346,7 +346,7 @@ function PrintView({ row, onClose, t, lang, onChangeLang }) {
         </div>
         <div className="border-b-2 border-gray-900/80 pb-3 mb-4">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <img src="/sp/logo.jpg" alt="SP FOODS logo" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
+            <img src="/logo.jpg" alt="SP FOODS logo" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
             <p className="font-bold text-xl text-gray-900">SP FOODS CO., LTD.</p>
           </div>
           <div className="flex items-center justify-center gap-2 text-gray-700 text-sm">

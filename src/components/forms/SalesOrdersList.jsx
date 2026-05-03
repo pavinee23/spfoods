@@ -62,7 +62,7 @@ function PrintView({ row, items, onClose, t, lang }) {
         {/* Header */}
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <img src="/sp/logo.jpg" alt="SP FOODS logo" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
+            <img src="/logo.jpg" alt="SP FOODS logo" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
             <p className="font-bold text-xl text-gray-900">SP FOODS CO., LTD.</p>
           </div>
           <p className="text-gray-600 text-sm">{t.printSubTitle}</p>

@@ -60,7 +60,7 @@ export default function RegisterModal({ onClose }) {
             <X className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-3 mb-1">
-            <img src="/sp/logo.jpg" alt="logo" className="w-9 h-9 rounded-full object-cover border-2 border-white/50" />
+            <img src="/logo.jpg" alt="logo" className="w-9 h-9 rounded-full object-cover border-2 border-white/50" />
             <span className="font-bold text-lg">SP FOODS CO.,LTD</span>
           </div>
           <p className="text-white/80 text-sm">แบรนด์ ส.ภาวิณีร์ อีสานฟู้ดส์</p>

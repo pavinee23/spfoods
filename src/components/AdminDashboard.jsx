@@ -105,7 +105,7 @@ export default function AdminDashboard() {
       {/* Top Bar */}
       <div className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
-          <img src="/sp/logo.jpg" alt="logo" className="w-8 h-8 rounded-full object-cover border border-white/30" />
+          <img src="/logo.jpg" alt="logo" className="w-8 h-8 rounded-full object-cover border border-white/30" />
           <div>
             <p className="font-bold text-sm leading-tight">SP FOODS CO.,LTD</p>
             <p className="text-gray-400 text-xs">{t.system}</p>
