@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, Globe, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import logoUrl from '../assets/logo.jpg';
 
 const languages = [
   { code: 'th', label: 'ไทย', flag: '🇹🇭' },

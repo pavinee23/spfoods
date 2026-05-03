@@ -13,6 +13,8 @@ import CustomersList from './forms/CustomersList';
 import SalesOrdersList from './forms/SalesOrdersList';
 import ContractPanel from './forms/ContractPanel';
 import ContractsList from './forms/ContractsList';
+import FeedbackPanel from './forms/FeedbackPanel';
+import SalesOrdersCRM from './forms/SalesOrdersCRM';
 
 const deptMenus = {
   accounting: {
@@ -331,6 +333,10 @@ function DeptDashboardUI({ dept, labels, ownerMenus, token, lang, setLang, menuL
                 <SalesOrder token={token} lang={lang} deptColor={dept.color} />
               ) : active === 'contract' ? (
                 <ContractPanel token={token} lang={lang} deptColor={dept.color} />
+              ) : active === 'crm' ? (
+                <SalesOrdersCRM token={token} lang={lang} deptColor={dept.color} />
+              ) : active === 'feedback' ? (
+                <FeedbackPanel token={token} lang={lang} deptColor={dept.color} />
               ) : active === 'registrations_report' ? (
                 <RegistrationsReport token={token} lang={lang} />
               ) : (
