@@ -26,8 +26,8 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' });
     }
 
-    // ตรวจสอบสิทธิ์ของแผนก - เฉพาะผู้ใช้ที่เป็น superadmin หรือ login ที่แผนกตัวเองเท่านั้น
-    if (user.role !== 'superadmin' && user.dept_id !== dept_id) {
+    // ถ้าส่ง dept_id มา ให้ตรวจว่าตรงกับแผนกของ user (สำหรับ dept login)
+    if (dept_id && user.role !== 'superadmin' && user.dept_id !== dept_id) {
       return res.status(403).json({ error: 'คุณไม่มีสิทธิ์เข้าถึงแผนกนี้' });
     }
 

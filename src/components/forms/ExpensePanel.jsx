@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -22,8 +23,8 @@ export default function ExpensePanel({ token, lang = 'th', deptColor, deptId }) 
     setLoading(true);
     try {
       const [rRows, rCats] = await Promise.all([
-        fetch(`/api/expenses${deptId ? `?dept=${deptId}` : ''}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/expenses/categories', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch(`/api/expenses${deptId ? `?dept=${deptId}` : ''}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/expenses/categories', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rRows)) setRows(rRows);
       if (Array.isArray(rCats)) setCats(rCats);
@@ -39,7 +40,7 @@ export default function ExpensePanel({ token, lang = 'th', deptColor, deptId }) 
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/expenses', {
+    const r = await apiFetch('/api/expenses', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...form, dept_id: deptId }),

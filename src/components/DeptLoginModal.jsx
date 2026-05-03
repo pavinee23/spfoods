@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api.js'
 import React, { useState } from 'react';
 import { X, Lock, User, ChevronRight, Eye, EyeOff } from 'lucide-react';
 
@@ -42,7 +43,7 @@ export default function DeptLoginModal({ dept, labels, lang = 'th', onClose, onS
     setLoading(true);
     setError('');
     try {
-      const res  = await fetch('/api/auth/login', {
+      const res  = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

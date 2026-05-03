@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { Factory, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -18,8 +19,8 @@ export default function ProductionPanel({ token, lang = 'th', deptColor, deptId 
     setLoading(true);
     try {
       const [rRows, rProd] = await Promise.all([
-        fetch(`/api/production${deptId ? `?dept=${deptId}` : ''}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch(`/api/production${deptId ? `?dept=${deptId}` : ''}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rRows)) setRows(rRows);
       if (Array.isArray(rProd)) setProducts(rProd);
@@ -29,7 +30,7 @@ export default function ProductionPanel({ token, lang = 'th', deptColor, deptId 
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/production', {
+    const r = await apiFetch('/api/production', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...form, dept_id: deptId }),
@@ -39,7 +40,7 @@ export default function ProductionPanel({ token, lang = 'th', deptColor, deptId 
   };
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/production/${id}`, {
+    await apiFetch(`/api/production/${id}`, {
       method: 'PATCH', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

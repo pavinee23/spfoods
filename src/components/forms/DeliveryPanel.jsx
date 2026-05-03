@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { Truck, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -20,10 +21,10 @@ export default function DeliveryPanel({ token, lang = 'th', deptColor }) {
     setLoading(true);
     try {
       const [rDN, rCust, rInv, rProd] = await Promise.all([
-        fetch('/api/delivery', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/delivery', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rDN))   setRows(rDN);
       if (Array.isArray(rCust)) setCustomers(rCust);
@@ -41,7 +42,7 @@ export default function DeliveryPanel({ token, lang = 'th', deptColor }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/delivery', {
+    const r = await apiFetch('/api/delivery', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -51,7 +52,7 @@ export default function DeliveryPanel({ token, lang = 'th', deptColor }) {
   };
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/delivery/${id}`, {
+    await apiFetch(`/api/delivery/${id}`, {
       method: 'PATCH', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

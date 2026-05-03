@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { Package, AlertTriangle, CheckCircle, RefreshCw, Search } from 'lucide-react';
 
@@ -47,7 +48,7 @@ export default function StockReport({ token, lang = 'th', deptColor }) {
   const load = async () => {
     setLoading(true); setError('');
     try {
-      const res  = await fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } });
+      const res  = await apiFetch('/api/products', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       if (Array.isArray(data)) setProducts(data);
       else setError(t.errServer);

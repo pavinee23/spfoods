@@ -17,7 +17,7 @@ export default function Hero() {
 
             <h1 className="text-5xl md:text-6xl font-bold text-dark leading-tight">
               <div className="flex items-center gap-4">
-                <img src="/logo.jpg" alt="SP FOODS CO.,LTD" className="w-16 h-16 rounded-full object-cover shadow-md" />
+                <img src="/sp/logo.jpg" alt="SP FOODS CO.,LTD" className="w-16 h-16 rounded-full object-cover shadow-md" />
                 SP FOODS CO.,LTD
               </div>
               <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-3xl md:text-4xl mt-2">
@@ -60,7 +60,7 @@ export default function Hero() {
           <div className="relative">
             <div className="rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="/main-Photo.jpg"
+                src="/sp/main-Photo.jpg"
                 alt="SP FOODS CO.,LTD"
                 className="w-full h-auto object-contain"
               />

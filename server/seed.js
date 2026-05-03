@@ -1,20 +1,23 @@
 import bcrypt from 'bcryptjs';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
-dotenv.config();
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, '.env') });
 
 const conn = await mysql.createConnection({
-  host:     process.env.DB_HOST     || 'localhost',
-  port:     process.env.DB_PORT     || 3306,
-  user:     process.env.DB_USER     || 'root',
+  host:     process.env.DB_HOST     || '127.0.0.1',
+  port:     Number(process.env.DB_PORT) || 3306,
+  user:     process.env.DB_USER     || 'goeunserverhub',
   password: process.env.DB_PASSWORD || '',
   multipleStatements: true,
   charset: 'utf8mb4',
 });
 
-console.log('🔧 Creating database spfoods...');
-await conn.query('CREATE DATABASE IF NOT EXISTS spfoods CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
-await conn.query('USE spfoods');
+const DB_NAME = process.env.DB_NAME || 'spfoods_db';
+console.log(`🔧 Using database ${DB_NAME}...`);
+await conn.query(`USE ${DB_NAME}`);
 
 console.log('🔧 Creating tables...');
 await conn.query(`

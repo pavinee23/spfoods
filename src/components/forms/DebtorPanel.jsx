@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { Users, AlertTriangle, RefreshCw, Search, CheckCircle } from 'lucide-react';
 
@@ -15,7 +16,7 @@ export default function DebtorPanel({ token, lang = 'th', deptColor }) {
   const load = async () => {
     setLoading(true);
     try {
-      const r = await fetch('/api/invoices/debtors', { headers: { Authorization: `Bearer ${token}` } });
+      const r = await apiFetch('/api/invoices/debtors', { headers: { Authorization: `Bearer ${token}` } });
       const d = await r.json();
       if (Array.isArray(d)) setRows(d);
     } finally { setLoading(false); }
@@ -28,7 +29,7 @@ export default function DebtorPanel({ token, lang = 'th', deptColor }) {
   );
 
   const save = async () => {
-    await fetch(`/api/invoices/debtors/${editing.id}`, {
+    await apiFetch(`/api/invoices/debtors/${editing.id}`, {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ balance: editing.balance, credit_limit: editing.credit_limit, credit_days: editing.credit_days, note: editing.note }),

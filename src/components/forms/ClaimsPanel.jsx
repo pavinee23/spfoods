@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { AlertTriangle, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -21,10 +22,10 @@ export default function ClaimsPanel({ token, lang = 'th', deptColor }) {
     setLoading(true);
     try {
       const [rC, rCust, rInv, rDN] = await Promise.all([
-        fetch('/api/delivery/claims', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/delivery', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/delivery/claims', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/delivery', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rC))    setRows(rC);
       if (Array.isArray(rCust)) setCustomers(rCust);
@@ -36,7 +37,7 @@ export default function ClaimsPanel({ token, lang = 'th', deptColor }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/delivery/claims', {
+    const r = await apiFetch('/api/delivery/claims', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -46,7 +47,7 @@ export default function ClaimsPanel({ token, lang = 'th', deptColor }) {
   };
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/delivery/claims/${id}`, {
+    await apiFetch(`/api/delivery/claims/${id}`, {
       method: 'PATCH', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

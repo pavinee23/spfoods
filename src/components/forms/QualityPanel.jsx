@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { FlaskConical, Plus, RefreshCw, Search, X, CheckCircle, AlertTriangle } from 'lucide-react';
 
@@ -19,9 +20,9 @@ export default function QualityPanel({ token, lang = 'th', deptColor }) {
     setLoading(true);
     try {
       const [rQC, rProd, rOrders] = await Promise.all([
-        fetch('/api/quality', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/production', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/quality', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/production', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rQC)) setRows(rQC);
       if (Array.isArray(rProd)) setProducts(rProd);
@@ -43,7 +44,7 @@ export default function QualityPanel({ token, lang = 'th', deptColor }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/quality', {
+    const r = await apiFetch('/api/quality', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Loader } from 'lucide-react';
 
@@ -61,7 +62,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
   const fetchNextCode = async () => {
     setLoadingCode(true);
     try {
-      const res = await fetch('/api/customers/next-code', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await apiFetch('/api/customers/next-code', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       if (data.code) setForm(p => ({ ...p, customer_code: data.code }));
     } catch {}
@@ -81,7 +82,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
     if (!form.customer_code || !form.customer_name || !form.phone) { setError(t.errRequired); return; }
     setSaving(true); setError('');
     try {
-      const res = await fetch('/api/customers', {
+      const res = await apiFetch('/api/customers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(form),
@@ -118,7 +119,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
       <div className="grid sm:grid-cols-2 gap-4">
         {/* รหัสลูกค้า — auto-generated */}
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">{t.code}</label>
+          <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{t.code}</label>
           <div className="relative">
             <input
               type="text"
@@ -139,21 +140,21 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
           { name: 'tax_id',         label: t.taxId,    type: 'text' },
         ].map(f => (
           <div key={f.name}>
-            <label className="block text-xs font-medium text-gray-500 mb-1">{f.label}</label>
+            <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{f.label}</label>
             <input
               type={f.type}
               name={f.name}
               value={form[f.name]}
               onChange={handle}
               required={f.required}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
             />
           </div>
         ))}
 
         {/* ประเภทการชำระเงิน */}
         <div className="sm:col-span-2">
-          <label className="block text-xs font-medium text-gray-500 mb-2">{t.payType}</label>
+          <label className="block text-xs font-semibold text-gray-800 mb-2">{t.payType}</label>
           <div className="flex gap-3">
             {[
               { value: 'cash',   label: t.cash,   icon: '💵' },
@@ -168,7 +169,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
                     ? p.value === 'cash'
                       ? 'border-green-400 bg-green-50 text-green-700'
                       : 'border-pink-400 bg-pink-50 text-pink-700'
-                    : 'border-gray-200 text-gray-400 hover:border-gray-300'
+                    : 'border-gray-200 text-gray-700 hover:border-gray-400'
                 }`}
               >
                 <span className="text-lg">{p.icon}</span>
@@ -180,7 +181,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
 
         {/* จำนวนวันเครดิต — แสดงเฉพาะเครดิต */}
         <div>
-          <label className={`block text-xs font-medium mb-1 ${form.payment_type === 'credit' ? 'text-gray-500' : 'text-gray-300'}`}>
+          <label className={`block text-xs font-semibold mb-1 ${form.payment_type === 'credit' ? 'text-gray-800' : 'text-gray-400'}`}>
             {t.creditDays}
           </label>
           <input
@@ -199,7 +200,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
 
         {/* หน่วยเงิน + วงเงินเครดิต */}
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">{t.currency}</label>
+          <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{t.currency}</label>
           <div className="flex gap-2">
             {CURRENCIES.map(c => (
               <button
@@ -209,7 +210,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
                 className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl border-2 text-xs font-semibold transition-all ${
                   form.currency === c.value
                     ? 'border-pink-400 bg-pink-50 text-pink-700'
-                    : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                    : 'border-gray-200 text-gray-700 hover:border-gray-400'
                 }`}
               >
                 <span className="text-base">{c.flag}</span>
@@ -220,7 +221,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">
+          <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">
             {t.creditLimit} ({form.currency})
           </label>
           <input
@@ -228,7 +229,7 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
             name="credit_limit"
             value={form.credit_limit}
             onChange={handle}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
           />
         </div>
       </div>
@@ -236,9 +237,9 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
       {/* ที่อยู่แยกส่วน */}
       <div className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">{t.address}</label>
+          <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{t.address}</label>
           <textarea name="address" value={form.address} onChange={handle} rows={2}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 resize-none" />
+            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 resize-none" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
@@ -248,18 +249,18 @@ export default function AddCustomerForm({ token, lang = 'th', deptColor }) {
             { name: 'country',     label: t.country },
           ].map(f => (
             <div key={f.name}>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{f.label}</label>
+              <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{f.label}</label>
               <input type="text" name={f.name} value={form[f.name]} onChange={handle}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100" />
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100" />
             </div>
           ))}
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-gray-500 mb-1">{t.note}</label>
+        <label className="block text-xs font-medium text-gray-800 mb-1 font-semibold">{t.note}</label>
         <textarea name="note" value={form.note} onChange={handle} rows={2}
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 resize-none" />
+          className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 resize-none" />
       </div>
 
       {error && <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-2 rounded-xl">{error}</div>}

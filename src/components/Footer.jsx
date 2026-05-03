@@ -38,7 +38,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <img src="/logo.jpg" alt="SP FOODS CO.,LTD" className="w-10 h-10 rounded-full object-cover border-2 border-white/20" />
+              <img src="/sp/logo.jpg" alt="SP FOODS CO.,LTD" className="w-10 h-10 rounded-full object-cover border-2 border-white/20" />
               <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 SP FOODS CO.,LTD
               </h3>

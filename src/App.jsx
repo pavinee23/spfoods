@@ -55,6 +55,9 @@ export default function App() {
         <Route path="/sp/admin-sp/dept/:deptId" element={
           <RequireAdminAuth><DeptDashboard /></RequireAdminAuth>
         } />
+        <Route path="/sp/admin-sp/dept/:deptId/:pageId" element={
+          <RequireAdminAuth><DeptDashboard /></RequireAdminAuth>
+        } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </LanguageProvider>

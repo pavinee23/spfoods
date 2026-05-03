@@ -36,7 +36,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <div className="flex items-center gap-2 shrink-0">
-            <img src="/logo.jpg" alt="SP FOODS CO.,LTD" className="h-8 w-8 rounded-full object-cover" />
+            <img src="/sp/logo.jpg" alt="SP FOODS CO.,LTD" className="h-8 w-8 rounded-full object-cover" />
             <div className="flex flex-col items-start">
               <span className="text-base font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight">
                 SP FOODS CO.,LTD

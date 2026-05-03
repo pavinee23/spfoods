@@ -3,14 +3,20 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/sp',
+  build: {
+    outDir: 'dist',
+  },
   server: {
-    port: 3005,
+    port: 5173,
+    host: true,
     strictPort: true,
-    open: true,
+    allowedHosts: ['strong-dory-enabled.ngrok-free.app', 'ge-serverhub.com', 'www.ge-serverhub.com', 'localhost'],
     proxy: {
-      '/api': {
+      '/sp-api': {
         target: 'http://localhost:3001',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/sp-api/, '/api'),
       },
     },
   }

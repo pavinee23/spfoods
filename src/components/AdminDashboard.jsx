@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -61,7 +62,6 @@ const LANGS = [
   { code: 'th', label: 'ไทย' },
   { code: 'en', label: 'EN' },
   { code: 'ko', label: '한국어' },
-  { code: 'my', label: 'မြန်မာ' },
 ];
 
 export default function AdminDashboard() {
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (!token) return;
-    fetch('/api/departments', { headers: { Authorization: `Bearer ${token}` } })
+    apiFetch('/api/departments', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(rows => {
         if (Array.isArray(rows)) {
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
       })
       .catch(() => {});
 
-    fetch('/api/registrations', { headers: { Authorization: `Bearer ${token}` } })
+    apiFetch('/api/registrations', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(rows => { if (Array.isArray(rows)) setRegCount(rows.length); })
       .catch(() => {});
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
       {/* Top Bar */}
       <div className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
-          <img src="/logo.jpg" alt="logo" className="w-8 h-8 rounded-full object-cover border border-white/30" />
+          <img src="/sp/logo.jpg" alt="logo" className="w-8 h-8 rounded-full object-cover border border-white/30" />
           <div>
             <p className="font-bold text-sm leading-tight">SP FOODS CO.,LTD</p>
             <p className="text-gray-400 text-xs">{t.system}</p>

@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { FileText, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -35,9 +36,9 @@ export default function InvoicePanel({ token, lang = 'th', deptColor, variant = 
     try {
       const [rRows, rCust, rInv] = await Promise.all([
         fetch(endpoint, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/customers', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
         isTax || isCN
-          ? fetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
+          ? apiFetch('/api/invoices', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
           : Promise.resolve([]),
       ]);
       if (Array.isArray(rRows)) setRows(rRows);
@@ -77,7 +78,7 @@ export default function InvoicePanel({ token, lang = 'th', deptColor, variant = 
   };
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/invoices/${id}`, {
+    await apiFetch(`/api/invoices/${id}`, {
       method: 'PATCH', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

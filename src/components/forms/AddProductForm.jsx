@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Loader } from 'lucide-react';
 
@@ -54,7 +55,7 @@ export default function AddProductForm({ token, lang = 'th', deptColor }) {
   const fetchNextCode = async () => {
     setLoadingCode(true);
     try {
-      const res  = await fetch('/api/products/next-code', { headers: { Authorization: `Bearer ${token}` } });
+      const res  = await apiFetch('/api/products/next-code', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       if (data.code) setForm(p => ({ ...p, product_code: data.code }));
     } catch {}
@@ -63,7 +64,7 @@ export default function AddProductForm({ token, lang = 'th', deptColor }) {
 
   const fetchCategories = async () => {
     try {
-      const res  = await fetch('/api/products/categories', { headers: { Authorization: `Bearer ${token}` } });
+      const res  = await apiFetch('/api/products/categories', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       if (Array.isArray(data)) setCategories(data);
     } catch {}
@@ -78,7 +79,7 @@ export default function AddProductForm({ token, lang = 'th', deptColor }) {
     if (!form.product_name) { setError(t.errRequired); return; }
     setSaving(true); setError('');
     try {
-      const res  = await fetch('/api/products', {
+      const res  = await apiFetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(form),
@@ -137,7 +138,7 @@ export default function AddProductForm({ token, lang = 'th', deptColor }) {
           <select name="category_id" value={form.category_id} onChange={handle}
             className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 bg-white">
             <option value="">{t.selectCat}</option>
-            {categories.map(c => <option key={c.id} value={c.id}>{c.category_name}</option>)}
+            {categories.map(c => <option key={c.id} value={c.id}>{c.category_name || c.name}</option>)}
           </select>
         </div>
 

@@ -11,10 +11,10 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบ' });
     }
     const [[typeRow]] = await pool.query(
-      'SELECT userID FROM registration_types WHERE description = ? LIMIT 1',
+      'SELECT id FROM registration_types WHERE name = ? LIMIT 1',
       [purpose]
     );
-    const registration_type_id = typeRow?.userID || null;
+    const registration_type_id = typeRow?.id || null;
     const [result] = await pool.query(
       'INSERT INTO registrations (name, email, phone, company, address, purpose, registration_type_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [name, email, phone, company || null, address, purpose, registration_type_id]
@@ -31,6 +31,29 @@ router.get('/', requireAuth, async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM registrations ORDER BY created_at DESC');
     res.json(rows);
   } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.patch('/:id', requireAuth, async (req, res) => {
+  try {
+    const { status, note } = req.body;
+    const fields = [];
+    const values = [];
+    if (status !== undefined) {
+      fields.push('status = ?', 'status_updated_at = NOW()');
+      values.push(status);
+    }
+    if (note !== undefined) {
+      fields.push('note = ?');
+      values.push(note);
+    }
+    if (!fields.length) return res.status(400).json({ error: 'no fields' });
+    values.push(req.params.id);
+    await pool.query(`UPDATE registrations SET ${fields.join(', ')} WHERE id = ?`, values);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
 });

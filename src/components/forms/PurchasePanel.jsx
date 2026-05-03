@@ -1,3 +1,4 @@
+import { apiFetch } from '../../lib/api.js'
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Plus, RefreshCw, Search, X } from 'lucide-react';
 
@@ -21,8 +22,8 @@ export default function PurchasePanel({ token, lang = 'th', deptColor }) {
     setLoading(true);
     try {
       const [rPO, rProd] = await Promise.all([
-        fetch('/api/purchase', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-        fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/purchase', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+        apiFetch('/api/products', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
       ]);
       if (Array.isArray(rPO))   setRows(rPO);
       if (Array.isArray(rProd)) setProducts(rProd);
@@ -47,7 +48,7 @@ export default function PurchasePanel({ token, lang = 'th', deptColor }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    const r = await fetch('/api/purchase', {
+    const r = await apiFetch('/api/purchase', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...form, items: form.items.filter(i => i.product_name || i.product_id) }),
@@ -57,7 +58,7 @@ export default function PurchasePanel({ token, lang = 'th', deptColor }) {
   };
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/purchase/${id}`, {
+    await apiFetch(`/api/purchase/${id}`, {
       method: 'PATCH', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

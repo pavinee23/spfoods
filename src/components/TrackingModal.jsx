@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api.js'
 import React, { useState } from 'react';
 import { X, Search, Package, Phone, User, Truck, CheckCircle, Clock, MapPin } from 'lucide-react';
 
@@ -19,7 +20,7 @@ export default function TrackingModal({ onClose }) {
     if (!query.trim()) return;
     setSearching(true);
     try {
-      const res = await fetch(`/api/tracking?type=${tab}&q=${encodeURIComponent(query.trim())}`);
+      const res = await apiFetch(`/api/tracking?type=${tab}&q=${encodeURIComponent(query.trim())}`);
       const data = await res.json();
       setResults(Array.isArray(data) ? data : []);
     } catch {
