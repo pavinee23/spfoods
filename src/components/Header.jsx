@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X, Globe, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import logoUrl from '../assets/logo.jpg';
+import TrackingModal from './TrackingModal';
 
 const languages = [
   { code: 'th', label: 'ไทย', flag: '🇹🇭' },
@@ -16,6 +17,7 @@ const languages = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [showTracking, setShowTracking] = useState(false);
   const { lang, setLang, t } = useLanguage();
 
   const navigation = [
@@ -24,7 +26,7 @@ export default function Header() {
     { name: t.nav.products, href: '#products' },
     { name: t.nav.about, href: '#about' },
     { name: t.nav.contact, href: '#contact' },
-    { name: t.nav.tracking, href: 'https://strong-dory-enabled.ngrok-free.app/sp/tracking', external: true },
+    { name: t.nav.tracking, onClick: () => setShowTracking(true), isModal: true },
     { name: t.nav.announce, href: '#announce', highlight: true },
   ];
 
@@ -48,19 +50,29 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1 lg:gap-3 flex-1 justify-center mx-2">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                className={item.highlight
-                  ? 'bg-primary text-white px-2.5 py-1 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors whitespace-nowrap'
-                  : 'text-gray-700 hover:text-primary transition-colors text-xs font-medium whitespace-nowrap px-1'}
-              >
-                {item.name}
-              </a>
-            ))}
+            {navigation.map((item) =>
+              item.isModal ? (
+                <button
+                  key={item.name}
+                  onClick={item.onClick}
+                  className="text-gray-700 hover:text-primary transition-colors text-xs font-medium whitespace-nowrap px-1"
+                >
+                  {item.name}
+                </button>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className={item.highlight
+                    ? 'bg-primary text-white px-2.5 py-1 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors whitespace-nowrap'
+                    : 'text-gray-700 hover:text-primary transition-colors text-xs font-medium whitespace-nowrap px-1'}
+                >
+                  {item.name}
+                </a>
+              )
+            )}
           </div>
 
           {/* Right side: Language + Buttons */}
@@ -108,18 +120,28 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 space-y-2">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                className={`block px-3 py-2 rounded-lg transition-colors ${item.highlight ? 'bg-primary text-white font-bold' : 'text-gray-700 hover:bg-light'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
+            {navigation.map((item) =>
+              item.isModal ? (
+                <button
+                  key={item.name}
+                  onClick={() => { item.onClick(); setIsOpen(false); }}
+                  className="block w-full text-left px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-light"
+                >
+                  {item.name}
+                </button>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className={`block px-3 py-2 rounded-lg transition-colors ${item.highlight ? 'bg-primary text-white font-bold' : 'text-gray-700 hover:bg-light'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </a>
+              )
+            )}
 
             {/* Mobile Language Switcher */}
             <div className="pt-2 border-t border-gray-100">
@@ -152,6 +174,7 @@ export default function Header() {
       )}
     </header>
 
+    {showTracking && <TrackingModal onClose={() => setShowTracking(false)} />}
 </>
   );
 }

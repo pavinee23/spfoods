@@ -60,6 +60,7 @@ app.use('/api/sales-orders', salesOrderRoutes);
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
 
+app.use('/sp', express.static(path.join(__dirname, '../dist')));
 app.use(express.static(path.join(__dirname, '../dist')));
 app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
